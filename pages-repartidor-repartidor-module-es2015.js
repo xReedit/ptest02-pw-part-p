@@ -951,9 +951,6 @@ class ListGrupoPedidosComponent {
             p.time_line = p.time_line || new src_app_modelos_time_line_pedido__WEBPACK_IMPORTED_MODULE_17__["TimeLinePedido"]();
             return p;
         });
-        if (this.listPedidos.length === 0) {
-            localStorage.setItem('sys::count::p', '0');
-        }
         // ordenar po distancia
         this.listPedidos = this.listPedidos
             .sort((a, b) => parseFloat(a.json_datos_delivery.p_header.arrDatosDelivery.establecimiento.distancia_km) - parseFloat(b.json_datos_delivery.p_header.arrDatosDelivery.establecimiento.distancia_km));
