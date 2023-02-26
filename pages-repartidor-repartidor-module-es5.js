@@ -3898,11 +3898,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           localStorage.setItem('sys::count::p', this.countPedidosAsignados);
           console.log('this.countPedidosAsignados', this.countPedidosAsignados);
-          this.pedidoRepartidorService.confirmarAsignacionReadBarCode(cod).subscribe(function (res) {
-            if (res) {
-              console.log(res); // pedido con repartidor
+          this.pedidoRepartidorService.confirmarAsignacionReadBarCode(cod).subscribe(function (pedidoRes) {
+            if (pedidoRes) {
+              console.log(pedidoRes); // pedido con repartidor
 
-              if (res.elPedido.idrepartidor) {
+              if (pedidoRes.idrepartidor) {
                 _this15.msjErrorCodDelivery = 'Ya tiene repatirdor asignado.'; // return;
               } else {
                 var _valIsSetPedido = _this15.verificarTiempoAsignacion();
@@ -3911,22 +3911,23 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   _this15.msjErrorCodDelivery = 'Ya tienes pedidos, la asignación estara disponible en 10min.';
                   return;
                 } else {
+                  // res = this.pedidoRepartidorService.addPedidoInListPedidosPendientes(res);
                   _this15.countPedidosAsignados++;
                   _this15.loadingScan = false;
                   _this15.isResulScan = true;
 
                   try {
-                    res.elPedido.json_datos_delivery = typeof res.elPedido.json_datos_delivery !== 'object' ? JSON.parse(res.elPedido.json_datos_delivery) : res.elPedido.json_datos_delivery;
+                    pedidoRes.json_datos_delivery = typeof pedidoRes.json_datos_delivery !== 'object' ? JSON.parse(pedidoRes.json_datos_delivery) : pedidoRes.json_datos_delivery;
                   } catch (error) {}
 
-                  _this15.ordenAsingadaScan = res.elPedido;
-                  res = _this15.pedidoRepartidorService.addPedidoInListPedidosPendientes(res.elPedido);
+                  _this15.ordenAsingadaScan = pedidoRes;
+                  pedidoRes = _this15.pedidoRepartidorService.addPedidoInListPedidosPendientes(pedidoRes);
 
-                  _this15.darFormatoGrupoPedidosRecibidos(res.pedidos_repartidor); // notificar asignacion
+                  _this15.darFormatoGrupoPedidosRecibidos(pedidoRes.pedidos_repartidor); // notificar asignacion
 
 
                   var rowAsignacionNotifica = {
-                    nombre: _this15.ordenAsingadaScan.json_datos_delivery.p_header.nom_us.split(' ')[0],
+                    nombre: _this15.ordenAsingadaScan.json_datos_delivery.p_header.arrDatosDelivery.nombre.split(' ')[0],
                     telefono: _this15.ordenAsingadaScan.json_datos_delivery.p_header.arrDatosDelivery.telefono,
                     // establecimiento: rowDatos.establecimiento.nombre,
                     idpedido: _this15.ordenAsingadaScan.idpedido,
@@ -3942,7 +3943,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
                   _this15.socketService.emit('repartidor-notifica-cliente-acepto-pedido', listClienteNotificar);
 
-                  console.log(res);
+                  console.log(pedidoRes);
                 }
               }
             } else {

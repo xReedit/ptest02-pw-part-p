@@ -2448,8 +2448,8 @@ class PedidoRepartidorService {
             this.crudService.postFree(_dataSendPedido, 'comercio', 'get-pedido-by-id', true)
                 .subscribe((res) => {
                 orden = res.data[0];
-                response = this.addPedidoInListPedidosPendientes(orden);
-                observer.next(response);
+                // response = this.addPedidoInListPedidosPendientes(orden);
+                observer.next(orden);
                 // const _importePedido = parseFloat(orden.total_r);
                 // let pedidos_repartidor = this.getPedidoPorAceptar();
                 // orden.json_datos_delivery = JSON.parse(orden.json_datos_delivery);

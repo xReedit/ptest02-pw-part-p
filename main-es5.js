@@ -3933,9 +3933,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             }; // get pedido
 
             _this13.crudService.postFree(_dataSendPedido, 'comercio', 'get-pedido-by-id', true).subscribe(function (res) {
-              orden = res.data[0];
-              response = _this13.addPedidoInListPedidosPendientes(orden);
-              observer.next(response); // const _importePedido = parseFloat(orden.total_r);
+              orden = res.data[0]; // response = this.addPedidoInListPedidosPendientes(orden);
+
+              observer.next(orden); // const _importePedido = parseFloat(orden.total_r);
               // let pedidos_repartidor = this.getPedidoPorAceptar();
               // orden.json_datos_delivery = JSON.parse(orden.json_datos_delivery);
               // if ( pedidos_repartidor ) {

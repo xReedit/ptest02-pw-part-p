@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "pe.com.papaya.reparto.twa",
+                     "sha256_cert_fingerprints": ["D9:12:94:07:77:6D:39:E3:4D:56:46:9B:2B:79:65:6C:3F:A0:D8:A2:67:77:0A:A7:A0:E8:EB:18:63:30:F1:10"] }
+      }
+]

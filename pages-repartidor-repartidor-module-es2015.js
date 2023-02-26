@@ -2052,11 +2052,11 @@ class MapaPedidosComponent {
         localStorage.setItem('sys::count::p', this.countPedidosAsignados);
         console.log('this.countPedidosAsignados', this.countPedidosAsignados);
         this.pedidoRepartidorService.confirmarAsignacionReadBarCode(cod)
-            .subscribe((res) => {
-            if (res) {
-                console.log(res);
+            .subscribe((pedidoRes) => {
+            if (pedidoRes) {
+                console.log(pedidoRes);
                 // pedido con repartidor
-                if (res.elPedido.idrepartidor) {
+                if (pedidoRes.idrepartidor) {
                     this.msjErrorCodDelivery = 'Ya tiene repatirdor asignado.';
                     // return;
                 }
@@ -2067,19 +2067,20 @@ class MapaPedidosComponent {
                         return;
                     }
                     else {
+                        // res = this.pedidoRepartidorService.addPedidoInListPedidosPendientes(res);
                         this.countPedidosAsignados++;
                         this.loadingScan = false;
                         this.isResulScan = true;
                         try {
-                            res.elPedido.json_datos_delivery = typeof res.elPedido.json_datos_delivery !== 'object' ? JSON.parse(res.elPedido.json_datos_delivery) : res.elPedido.json_datos_delivery;
+                            pedidoRes.json_datos_delivery = typeof pedidoRes.json_datos_delivery !== 'object' ? JSON.parse(pedidoRes.json_datos_delivery) : pedidoRes.json_datos_delivery;
                         }
                         catch (error) { }
-                        this.ordenAsingadaScan = res.elPedido;
-                        res = this.pedidoRepartidorService.addPedidoInListPedidosPendientes(res.elPedido);
-                        this.darFormatoGrupoPedidosRecibidos(res.pedidos_repartidor);
+                        this.ordenAsingadaScan = pedidoRes;
+                        pedidoRes = this.pedidoRepartidorService.addPedidoInListPedidosPendientes(pedidoRes);
+                        this.darFormatoGrupoPedidosRecibidos(pedidoRes.pedidos_repartidor);
                         // notificar asignacion
                         const rowAsignacionNotifica = {
-                            nombre: this.ordenAsingadaScan.json_datos_delivery.p_header.nom_us.split(' ')[0],
+                            nombre: this.ordenAsingadaScan.json_datos_delivery.p_header.arrDatosDelivery.nombre.split(' ')[0],
                             telefono: this.ordenAsingadaScan.json_datos_delivery.p_header.arrDatosDelivery.telefono,
                             // establecimiento: rowDatos.establecimiento.nombre,
                             idpedido: this.ordenAsingadaScan.idpedido,
@@ -2092,7 +2093,7 @@ class MapaPedidosComponent {
                         const listClienteNotificar = [];
                         listClienteNotificar.push(rowAsignacionNotifica);
                         this.socketService.emit('repartidor-notifica-cliente-acepto-pedido', listClienteNotificar);
-                        console.log(res);
+                        console.log(pedidoRes);
                     }
                 }
             }
