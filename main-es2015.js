@@ -2047,7 +2047,8 @@ class PedidoRepartidorService {
     }
     setLocalItems(obj) {
         // obj = obj ? obj : this.pedidoRepartidor;
-        localStorage.setItem(this.keyLocalItem, btoa(JSON.stringify(obj)));
+        // localStorage.setItem(this.keyLocalItem, btoa(JSON.stringify(obj)));
+        localStorage.setItem(this.keyLocalItem, JSON.stringify(obj));
     }
     setPedidoSelect(obj) {
         localStorage.setItem(this.keyLocalItemSelected, btoa(JSON.stringify(obj)));
@@ -2069,7 +2070,7 @@ class PedidoRepartidorService {
     }
     getLocalItems() {
         const rpt = localStorage.getItem(this.keyLocalItem);
-        return rpt ? JSON.parse(atob(rpt)) : null;
+        return rpt ? JSON.parse(rpt) : null;
     }
     getLocal() {
         const rpt = localStorage.getItem(this.keyLocal);
@@ -2240,7 +2241,7 @@ class PedidoRepartidorService {
         const _diffSubTotal = parseFloat(_rowSubTotal.importe) - subTotalDefault;
         _rowSubTotal.importe = subTotalDefault;
         // sumamos los totales
-        const rowTotal = subotales.filter(x => x.descripcion === 'TOTAL')[0];
+        const rowTotal = subotales.filter(x => x.descripcion.toUpperCase() === 'TOTAL')[0];
         // importe que pagara el cliente
         this.pedidoRepartidor.importePagaCliente = rowTotal.importe;
         rowTotal.importe = parseFloat(rowTotal.importe) - _diffSubTotal;
@@ -2910,8 +2911,7 @@ class SocketService {
             secure: true,
             rejectUnauthorized: false,
             // forceNew: true,
-            query: dataSocket
-            // forceNew: true
+            query: dataSocket,
         });
         this.listenStatusSocket(); // escucha los estado del socket
         // this.socket.on('finishLoadDataInitial', () => {

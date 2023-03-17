@@ -3420,7 +3420,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "setLocalItems",
         value: function setLocalItems(obj) {
           // obj = obj ? obj : this.pedidoRepartidor;
-          localStorage.setItem(this.keyLocalItem, btoa(JSON.stringify(obj)));
+          // localStorage.setItem(this.keyLocalItem, btoa(JSON.stringify(obj)));
+          localStorage.setItem(this.keyLocalItem, JSON.stringify(obj));
         }
       }, {
         key: "setPedidoSelect",
@@ -3454,7 +3455,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "getLocalItems",
         value: function getLocalItems() {
           var rpt = localStorage.getItem(this.keyLocalItem);
-          return rpt ? JSON.parse(atob(rpt)) : null;
+          return rpt ? JSON.parse(rpt) : null;
         }
       }, {
         key: "getLocal",
@@ -3675,7 +3676,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           _rowSubTotal.importe = subTotalDefault; // sumamos los totales
 
           var rowTotal = subotales.filter(function (x) {
-            return x.descripcion === 'TOTAL';
+            return x.descripcion.toUpperCase() === 'TOTAL';
           })[0]; // importe que pagara el cliente
 
           this.pedidoRepartidor.importePagaCliente = rowTotal.importe;
@@ -4653,8 +4654,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             secure: true,
             rejectUnauthorized: false,
             // forceNew: true,
-            query: dataSocket // forceNew: true
-
+            query: dataSocket
           });
           this.listenStatusSocket(); // escucha los estado del socket
           // this.socket.on('finishLoadDataInitial', () => {
